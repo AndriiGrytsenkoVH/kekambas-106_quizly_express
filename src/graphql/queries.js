@@ -1,4 +1,4 @@
-const { GraphQLList} = require('graphql')
+const { GraphQLList, GraphQLID } = require('graphql')
 const { UserType } = require('./types')
 
 const { User } = require('../models')
@@ -11,6 +11,18 @@ const users = {
     }
 }
 
+const user = {
+    type: UserType,
+    description: 'Query a single user by if',
+    args: {
+        id: {type: GraphQLID }
+    },
+    resolve(parent, args){
+        return User.findById(args.id)
+    }
+}
+
 module.exports = {
-    users
+    users,
+    user
 }
