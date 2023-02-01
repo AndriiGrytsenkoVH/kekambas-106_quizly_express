@@ -1,7 +1,10 @@
-const { GraphQLList, GraphQLID } = require('graphql')
-const { UserType } = require('./types')
+// Import Types from graphql
+const { GraphQLList, GraphQLID } = require('graphql');
+// Import our own created type
+const { UserType } = require('./types');
+// Import model so we can get data from MongoDB
+const { User } = require('../models');
 
-const { User } = require('../models')
 
 const users = {
     type: new GraphQLList(UserType),
@@ -11,11 +14,12 @@ const users = {
     }
 }
 
+
 const user = {
     type: UserType,
-    description: 'Query a single user by if',
+    description: 'Query single user from database by ID',
     args: {
-        id: {type: GraphQLID }
+        id: { type: GraphQLID }
     },
     resolve(parent, args){
         return User.findById(args.id)
