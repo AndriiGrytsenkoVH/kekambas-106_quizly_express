@@ -7,8 +7,20 @@ const path = require('path');
 const { connectDB } = require('./src/db');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./src/graphql/schema')
+const { authenticate } = require('./src/middleware/auth')
+const cookieParser = require('cookie-parser')
 
 connectDB();
+const myLogger = function(req, res, next){
+    console.log(req.path)
+    next()
+}
+
+app.use(myLogger);
+
+app.use(cookieParser());
+
+app.use(authenticate);
 
 app.use('/graphql', graphqlHTTP({
     schema, 
