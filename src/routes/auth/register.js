@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
         try{
             const mutation = `
             mutation ($email: String!, $username: String!, $password: String!){
-                register(email: $email, $username: $username, password: $password)
+                register(email: $email, username: $username, password: $password)
             }`
             const {data} = await axios.post(process.env.GRAPHQL_ENDPOINT,
                 {
