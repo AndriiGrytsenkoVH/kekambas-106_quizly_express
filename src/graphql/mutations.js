@@ -1,6 +1,7 @@
 const { GraphQLString } = require('graphql')
 const { User } = require('../models')
 const bcrypt = require('bcrypt')
+const { createJwtToken } = require('../util/auth')
 
 
 const register = {
@@ -18,10 +19,16 @@ const register = {
         }
 
         const { username, email, password } = args;
+
         const passwordHash = await bcrypt.hash(password, 10)
+
         const user = new User({ username, email, password: passwordHash })
+
         await user.save()
-        return user.username
+
+        const token = createJwtToken(user);
+        
+        return token;
     }
 }
 
