@@ -1,7 +1,7 @@
-const axios = require('axios')
+const axios = require('axios');
 
 module.exports = async (req, res) => {
-    try {
+    try{
         const mutation = `
             mutation ($email: String!, $password: String!){
                 login(
@@ -10,29 +10,29 @@ module.exports = async (req, res) => {
                 )
             }
         `
-
         const { data } = await axios.post(process.env.GRAPHQL_ENDPOINT,
-            {
-                query: mutation,
-                variables: {
-                    email: req.body.email,
-                    password: req.body.password
+                {
+                    query: mutation,
+                    variables: {
+                        email: req.body.email,
+                        password: req.body.password
+                    }
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
                 }
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
+            )
 
         const jwtToken = data.data.login;
 
-        res.cookie('jwtToken', jwtToken, { httpOnly: true})
-        
-        res.redirect('/')
+        res.cookie('jwtToken', jwtToken, { httpOnly: true });
+
+        res.redirect('/');
 
     } catch(err) {
-        console.log(err)
+        console.log(err);
         res.redirect('/auth/login')
     }
 }
