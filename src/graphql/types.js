@@ -75,6 +75,7 @@ const QuestionType = new GraphQLObjectType(
             title: { type: GraphQLString },
             correctAnswer: { type: GraphQLString },
             quizId: { type: GraphQLID },
+            order: { type: GraphQLInt },
             quiz: {
                 type: QuizType,
                 resolve(parent, args){
@@ -88,5 +89,6 @@ const QuestionType = new GraphQLObjectType(
 module.exports = {
     UserType,
     QuizType,
-    QuestionInputType
+    QuestionInputType,
+    QuestionType
 }
