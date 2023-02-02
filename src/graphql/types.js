@@ -1,6 +1,13 @@
 // Import built-in graphql types
-const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLInputObjectType, GraphQLInt } = require('graphql');
-const { User } = require('../models')
+const { 
+    GraphQLObjectType,
+    GraphQLID, 
+    GraphQLString, 
+    GraphQLInputObjectType, 
+    GraphQLInt, 
+    GraphQLList 
+} = require('graphql');
+const { User, Quiz, Question } = require('../models')
 
 
 const UserType = new GraphQLObjectType(
@@ -10,7 +17,13 @@ const UserType = new GraphQLObjectType(
         fields: () => ({
             id: { type: GraphQLID },
             username: { type: GraphQLString },
-            email: { type: GraphQLString }
+            email: { type: GraphQLString },
+            quizzes: {
+                type: new GraphQLList(QuizType),
+                resolve(parent, args){
+                    return Quiz.find({ userId: parent.id })
+                }
+            }
         })
     }
 )
@@ -30,6 +43,12 @@ const QuizType = new GraphQLObjectType(
                 resolve(parent, args){
                     return User.findById(parent.userId)
                 }
+            },
+            questions: {
+                type: new GraphQLList(QuestionType),
+                resolve(parent, args){
+                    return Question.find( { quizId: parent.id })
+                }
             }
         })
     }
@@ -43,6 +62,25 @@ const QuestionInputType = new GraphQLInputObjectType(
             title: { type: GraphQLString },
             order: { type: GraphQLInt },
             correctAnswer: { type: GraphQLString}
+        })
+    }
+)
+
+const QuestionType = new GraphQLObjectType(
+    {
+        name: 'Question',
+        description: 'Question Type',
+        fields: () => ({
+            id: { type: GraphQLID},
+            title: { type: GraphQLString },
+            correctAnswer: { type: GraphQLString },
+            quizId: { type: GraphQLID },
+            quiz: {
+                type: QuizType,
+                resolve(parent, args){
+                    return Quiz.findById(parent.quizId)
+                }
+            }
         })
     }
 )
