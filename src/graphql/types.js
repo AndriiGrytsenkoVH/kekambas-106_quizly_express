@@ -1,5 +1,5 @@
 // Import built-in graphql types
-const { GraphQLObjectType, GraphQLID, GraphQLString } = require('graphql');
+const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLInputObjectType, GraphQLInt } = require('graphql');
 const { User } = require('../models')
 
 
@@ -35,7 +35,20 @@ const QuizType = new GraphQLObjectType(
     }
 )
 
+const QuestionInputType = new GraphQLInputObjectType(
+    {
+        name: 'QuestionInput',
+        description: 'Question Input Type',
+        fields: () => ({
+            title: { type: GraphQLString },
+            order: { type: GraphQLInt },
+            correctAnswer: { type: GraphQLString}
+        })
+    }
+)
+
 module.exports = {
     UserType,
-    QuizType
+    QuizType,
+    QuestionInputType
 }
