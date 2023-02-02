@@ -25,7 +25,7 @@ app.use(myLogger);
 // Add Cookie Parser middleware BEFORE the authenticate
 app.use(cookieParser());
 
-// Add authentication midddleware to the app
+// Add authentication middleware to the app
 app.use(authenticate);
 
 // Add graphql middleware to app
@@ -40,10 +40,6 @@ app.set('views', path.join(__dirname, 'src/templates/views'))
 
 // Set up middleware to parse form data and add to request body
 app.use(express.urlencoded({ extended: true }));
-
-app.get('/', (req, res) => {
-    res.send('Hello World')
-});
 
 // Import the function from routes module
 const initRoutes = require('./src/routes');
