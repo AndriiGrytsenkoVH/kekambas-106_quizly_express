@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const quizSchema = new mongoose.Schema(
     {
         slug: {
@@ -20,7 +21,8 @@ const quizSchema = new mongoose.Schema(
             required: true
         }
     },
-    { timestamp: true }
+    { timestamps: true }
 )
 
-module.exports = mongoose.model('Quiz', quizSchema);
+
+module.exports = mongoose.model("Quiz", quizSchema);

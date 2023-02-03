@@ -1,9 +1,9 @@
 // Import Types from graphql
 const { GraphQLList, GraphQLID, GraphQLString } = require('graphql');
-// Import our own created type
+// Import our own created type(s)
 const { UserType, QuizType } = require('./types');
 // Import model so we can get data from MongoDB
-const { User } = require('../models');
+const { User, Quiz } = require('../models');
 
 
 const users = {
@@ -26,6 +26,7 @@ const user = {
     }
 }
 
+
 const quizBySlug = {
     type: QuizType,
     description: 'Query quiz by its unique slug',
@@ -37,8 +38,9 @@ const quizBySlug = {
     }
 }
 
+
 module.exports = {
     users,
     user,
-    quizBySlug
+    quizBySlug,
 }

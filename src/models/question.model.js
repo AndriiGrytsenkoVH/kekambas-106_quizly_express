@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+
 
 const questionSchema = new mongoose.Schema(
     {
@@ -7,7 +8,7 @@ const questionSchema = new mongoose.Schema(
             required: true
         },
         correctAnswer: {
-            type: Number,
+            type: String,
             required: true
         },
         order: {
@@ -21,5 +22,6 @@ const questionSchema = new mongoose.Schema(
     },
     { timestamps: true }
 );
+
 
 module.exports = mongoose.model("Question", questionSchema);

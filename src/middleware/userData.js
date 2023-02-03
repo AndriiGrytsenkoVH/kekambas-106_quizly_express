@@ -1,28 +1,30 @@
-const axios = require('axios')
+const axios = require('axios');
 
 const userData = async (req, res, next) => {
     if (!req.verifiedUser){
         next()
     } else {
+        // Get the quiz info for this user
         try {
             const query = `
-            query($id: ID!){
-                user(id: $id){
-                    id
-                    quizzes{
+                query($id: ID!){
+                    user(id: $id){
                         id
-                        slug
-                        title
-                        description
-                        questions{
+                        quizzes{
                             id
+                            slug
                             title
-                            correctAnswer
-                            order
+                            description
+                            questions{
+                                id
+                                title
+                                correctAnswer
+                                order
+                            }
                         }
                     }
                 }
-            }`
+            `
             const { data } = await axios.post(
                 process.env.GRAPHQL_ENDPOINT,
                 {
@@ -35,9 +37,10 @@ const userData = async (req, res, next) => {
                     }
                 }
             )
+            
             req.verifiedUser.quizzes = data.data.user.quizzes;
             next()
-        } catch (err){
+        } catch (err) {
             console.log(err)
             req.verifiedUser.quizzes = [];
             next()
